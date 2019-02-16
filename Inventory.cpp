@@ -4,45 +4,49 @@
 //Associated File:    None
 //Inventory.cpp File contains:
 // - Calling Inventory.h
-// - 
+// -
 //---------------------------------------------------------------------------------------------------------------------
 #include"Standards.h"
 #include"Inventory.h"
 
 void InventoryGettingData(ifstream& fin, inventoryStructType& inventory1, int& invetoryCount) {
-    
-	///We need to put everything in loop until the end of the file
+
 	inventory1.totalOnHandQuantity = 0;
 
-    getline(fin, inventory1.productName);
-    getline(fin, inventory1.productNumber);
+	while (!fin.eof()) {
+		getline(fin, inventory1.productName);
+		getline(fin, inventory1.productNumber);
 
-    //Store onHand into Array  (nested loop) & Calculate total Quantity
-    for (int i = 0; i <= 2; i++) {
-        invetoryCount = 0;
-        for (int j = 0; j <= 3; j++) {
+		//Store onHand into Array  (nested loop) & Calculate total Quantity
+		for (int i = 0; i <= 2; i++) {
+			invetoryCount = 0;
+			for (int j = 0; j <= 3; j++) {
 
-			fin >> inventory1.onHand[i][j];
-			inventory1.totalOnHandQuantity = inventory1.totalOnHandQuantity + inventory1.onHand[i][j];
-            invetoryCount +=1;
-            
-        }
-    }
-    fin >> inventory1.minimumOnHandQuantity >> inventory1.cost;
+				fin >> inventory1.onHand[i][j];
+				inventory1.totalOnHandQuantity = inventory1.totalOnHandQuantity + inventory1.onHand[i][j];
+				invetoryCount += 1;
 
-	//Getting value of Reorder Flag
-	inventory1.reorderFlag = ReorderFlag(inventory1.totalOnHandQuantity, inventory1.minimumOnHandQuantity);
+			}
+		}
+		fin >> inventory1.minimumOnHandQuantity >> inventory1.cost;
 
-	///Formula to calculate Price
-	/*///
-		* Will be constant 175/100 = 1.75 
-		* then 1.75 * cost = > 1.75 * 7.55 ===> Markup Amount
-		* Markup amount + cost = Price ==> ex. 13.21 + 7.55 = 20.76
-		
-	*////
-	//Calculate Price
-	inventory1.price = MARKUP  * inventory1.cost;
-	inventory1.price = inventory1.price + +inventory1.cost;
+		//Getting value of Reorder Flag
+		inventory1.reorderFlag = ReorderFlag(inventory1.totalOnHandQuantity, inventory1.minimumOnHandQuantity);
+
+		//Calculate Price
+		inventory1.price = MARKUP * inventory1.cost;
+		inventory1.price = inventory1.price + +inventory1.cost;
+
+		inventory1.totalOnHandQuantity++;
+
+		fin.ignore(1000, '\n');
+
+		//Print data into file
+
+
+	}
+
+
 
 }
 
@@ -56,4 +60,11 @@ bool ReorderFlag(int quantity, int minOnHand) {
 	}
 
 	return reorderFlag;
+}
+
+//Print Inventory Data
+void PrintInventoryData(ofstream& fout, int inventoryCount, string inventory_title) {
+
+
+
 }

@@ -1,29 +1,54 @@
-//---------------------------------------------------------------------------------------------------------------------
-//Programmer's Name:  Mohamed Ali Larbi Daho Bachir
-//File Name:          BachirMLab1.cpp
-//Associated File:    None
-//Inventory.cpp File contains:
-// - Calling Inventory.cpp
-// - Calling Company.cpp
-// - OrderProcessing.cpp
-//---------------------------------------------------------------------------------------------------------------------
+
 #include"Standards.h"
 #include"Inventory.h"
+#include"Company.h"
 
 int main(void) {
 
-    int inventoryCount;
-    ifstream fileInput;
+	int inventoryCount;
 
-    inventoryStructType invent;
+	ifstream fin;
+	ofstream fout;
 
-    //Open Inventory.txt file
-    fileInput.open("inventoryInput.txt");
+	/*=================================================================================================================
+	===============================================[Part 2: The Inventory]=============================================
+	=================================================================================================================*/
 
-    InventoryGettingData(fileInput, invent, inventoryCount);
+	//Define Inventory struct
+	inventoryStructType inventory;
 
-    return 0;
+	//Open inventoryInput.txt file
+	fin.open("inventoryInput.txt");
+
+	//Get DATA from Inventory File
+	InventoryGettingData(fin, inventory, inventoryCount);
+
+	//Print Inventory Data
+	PrintInventoryData(fout, inventoryCount, "InventoryReport - Unsorted");
+
+	//Close Inventory File
+	fin.close();
+
+	/*=================================================================================================================
+	==================================================[Part 3: Company]================================================
+	=================================================================================================================*/
+
+	//Define Company Struct
+	companyStructType companyS;
+
+	//Open CompanyInput.txt file
+	fin.open("CompanyInput.txt");
+
+
+
+	//Closr ComnpanyInput.txt file
+	fin.close();
+
+	/*=================================================================================================================
+	=============================================[Part 4: Processing Orders]===========================================
+	=================================================================================================================*/
+
+
+	return 0;
+
 }
-
-
-
