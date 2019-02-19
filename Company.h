@@ -13,7 +13,6 @@
 #include"Standards.h"
 
 //Declare Company Struct
-
 struct companyStructType {
 
 	string companyName;
@@ -25,6 +24,17 @@ struct companyStructType {
 	int companyID;
 
 };
+
+//Get DATA From Company.txt
+int CompanyGettingData(ifstream& fin, companyStructType companyStruct[]);
+
+//Print Company Heading
+void PrintCompanyHeading(ofstream& fout);
+
+//Print out Company DATA
+void PrintCompanyData(ofstream& fout, int companyCount, companyStructType companyStruct[]);
+
+#endif // !Company_h
 
 
 

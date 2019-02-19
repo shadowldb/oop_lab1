@@ -11,7 +11,7 @@
 #include"Standards.h"
 
 //Declare Inventory Struct Type
-struct inventoryStructType {
+struct inventoryStructType{
     string productName;
     string productNumber;
 
@@ -27,13 +27,19 @@ struct inventoryStructType {
 
 
 
+//Inventory Header
+void InventoryHeading(ofstream& fout);
+
 //Declare Inventory Function
-void InventoryGettingData(ifstream& fin, inventoryStructType& inventory1, int& invetoryCount);
+int InventoryGettingData(ifstream& fin, inventoryStructType inventory1[]);
 
 //reorder flag
 bool ReorderFlag(int quantity, int minOnHand);
 
+//Sort InventoryStruct
+void InventoryStructSorted(inventoryStructType inventory[], int inventoryCount);
+
 //Print Inventory Data
-void PrintInventoryData(ofstream& fout, int inventoryCount, string inventory_title);
+void PrintInventoryData(ofstream& fout, inventoryStructType inventory[], int inventoryCount, string inventory_title);
 
 #endif Inventory_h
