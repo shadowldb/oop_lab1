@@ -1,7 +1,99 @@
+//---------------------------------------------------------------------------------------------------------------------
+//Programmer's Name: Mohamed Ali Larbi Daho Bachir
+//Lab 1
+//Total Possible Points -----------------------------------------------------------------------------------------> 200
+//Points Lost---------------------------------------------------------------------------------------------------->-
+//Lab Grade ----------------------------------------------------------------------------------------------------->
+//Main Requirements
+// Main named correctly
+// Includes for header files above the main
+// Variables named correctly & blocked by type
+// Files Opened and closed in the main
+// Processing blocked by Parts
+// *Part 1
+//  -Output file opened, formatting set to 2 decimals
+//  -CourseHeading, File Names printed
+// *Part 2
+//  -Open the inventory input file
+//  -Input the inventory data
+//  -Calculate the inventory Prices
+//  -Calculate the total quantity on hand
+//  -Set reorder flags
+//  -Print the inventory data
+//  -Print the count of the inventory
+//  -Sort the inventory data
+//  -Print the inventory data
+//  -Print the count of the inventory
+// *Part 3
+//  -Open the company input file
+//  -Input the company data
+//  -Print the company data
+//  -Print the count of the companies
+// *Part 4
+//  -Open the order input file
+//  -Process the orders
+//Print the final inventory file updated with all orders processed
+//Comments:
+//
+//
+//
+//Points Lost---------------------------------------------------------------------------------------------------->
+//---------------------------------------------------------------------------------------------------------------------
+//Inventory
+//-Header and CPP file created, correctly named
+//-Correctly documented and formatted, meets all standard Course Requirements
+//-Functions included:
+//  *Input Inventory
+//  *Calculate Inventory Prices
+//  *Calculate Total Quantity on hand
+//  *Set Reorder Flag
+//  *Print Column Headings
+//  *Print Inventory
+//  *Selection Sort the inventory ascending on product number
+//    ^Selection Sort
+//    ^Index of Smallest
+//    ^Swap
+//
+//Comments:
+//
+//
+//
+//Points Lost---------------------------------------------------------------------------------------------------->
+//---------------------------------------------------------------------------------------------------------------------
+//Company
+//-Header and CPP file created, correctly named
+//-Correctly documented and formatted, meets all standard Course Requirements
+//-Functions included:
+//  *Input Company
+//  *Print Company Heading
+//  *Print Companies
+//Comments:
+//
+//
+//
+//Points Lost---------------------------------------------------------------------------------------------------->
+//---------------------------------------------------------------------------------------------------------------------
+//Order Processing
+//-Header and CPP file created, correctly named
+//-Correctly documented and formatted, meets all standard Course Requirements
+//-Functions included:
+//  *Check Company Id
+//  *Check Product Number
+//  *Update Inventory
+//  *Print Bill Error
+//  *Print Bill
+//  *Process Orders
+//Comments:
+//
+//
+//
+//Points Lost---------------------------------------------------------------------------------------------------->
+//---------------------------------------------------------------------------------------------------------------------
 
 #include"Standards.h"
 #include"Inventory.h"
 #include"Company.h"
+#include"OrderProcessing.h"
 
 const int inventoryCounts = 50;
 
@@ -79,16 +171,45 @@ int main(void) {
 	/*=================================================================================================================
 	=============================================[Part 4: Processing Orders]===========================================
 	=================================================================================================================*/
-
+    
+    int indexCompanys;    
+    int processCounter;
+    string companyIDprocess;
+    
+    //Inizializing
+    indexCompanys = 0;
+    
 	//Open ProcessInput.txt file
 	fin.open("ProcessInput.txt");
+    
+   
+    //Get first value
+    fin >> processCounter;    
+    //Ignore and go to the next line
+    fin.ignore(100, '\n');    
 
+    //Look for companyID
+    while (!fin.eof()) {
+        //Get Data from CompanyStruct
+        indexCompanys = CompanyIDChecker(fin, companyCount, companyS, processCounter);
+        
+        //Print DATA
+        PrintProcessingOrder(fout, companyS, inventory, companyCount, inventoryCount, indexCompanys);
+    }
+  
+
+    //Look for productNumber
+    //Print Process DATA
+  
+    
 	//Close ProcessInput.txt file
 	fin.close();
 
 
 
 	fout.close();
+
+    ///system("pause");
 
 	return 0;
 
@@ -157,3 +278,4 @@ void PrintFileName(ofstream& fout) {
 
 
 }
+
