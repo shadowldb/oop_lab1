@@ -1,10 +1,45 @@
 #include"Standards.h"
 #include"Company.h"
 #include"Inventory.h"
+#include"OrderProcessing.h"
 
+
+//Store ProcessInput.txt into Struct
+void StoreDataIntoStruct(ifstream& fin, processingOrderStruct orderStruct[], int& processingCounter) 
+{
+
+    int counter;
+
+    string data;
+    
+    //Inizializing Counter
+    counter = 0;
+
+    //Store first value in File
+    fin >> processingCounter;
+    fin.ignore(1000, '\n');
+
+    while (fin && counter <= processingCounter) {
+
+        //Get full line of Data
+        getline(fin, data);
+        
+        //Store data into struct
+        orderStruct[counter].orderNumber = data.substr(0, 4);
+        orderStruct[counter].orderCompanyID = stoi(data.substr(5, 4));
+        orderStruct[counter].orderProductNumber = data.substr(10, 4);
+        orderStruct[counter].quantityOrder = stoi(data.substr(15,4));
+        
+    
+        fin.ignore(1000, '\n');
+        counter++;
+        
+        
+    }
+}
 
 //Check and look for CompanyID in CompanyStructType && ProcessInput.txt
-int CompanyIDChecker(ifstream& fin, int companyCount, companyStructType companyO[], int& processCount) 
+int CompanyIDChecker(int companyCount, companyStructType companyO[], int companyIdProcess, int& processCount) 
 {
 
 	int indexCompany;
@@ -13,29 +48,18 @@ int CompanyIDChecker(ifstream& fin, int companyCount, companyStructType companyO
 	int storingCounter;
 
 	string companyId;
-	string companyIdProcess;
 
 	bool loopControler;
 		
 	loopControler = false;
 	storingCounter = 0;
 
-	fin >> processCount;
-	fin.ignore(100, '\n');
+    indexCompany = 0;
 
-	for (processFileCounter = 0; processFileCounter < processCount; processFileCounter++)
-	{
-
-		//Get only companyID from line 
-		getline(fin, companyIdProcess);
 		
-		companyIdProcess = companyIdProcess.substr(5, 4);
-
 		for (indexCounter = 0; indexCounter < companyCount; indexCounter++) {
 
-			companyId = to_string(companyO[indexCounter].companyID);
-
-			if (companyIdProcess == companyId) {
+			if (companyIdProcess == companyO[indexCounter].companyID) {
 
 				//Make return value(indexCompany) equal to indexCounter 
 				indexCompany = indexCounter;
@@ -45,56 +69,39 @@ int CompanyIDChecker(ifstream& fin, int companyCount, companyStructType companyO
 
 				//Break from second one
 				break;
-				storingCounter++;
-			}
+            }
+           
 
 
-		}
-	}
-
-
-	return indexCompany;
+	 }
+     
+     //return CompanyID location
+     return indexCompany;
 
 }
 
 //Product Number ID from Inventory
-int ProductNumberIDo(ifstream& fin, int inventoryCount, string& productNid, inventoryStructType inventoryO[], int processCount)
+int ProductNumberIDos(string productIDprocess, int inventoryCount, inventoryStructType inventoryO[])
 {
 	int indexProductNumber;
 	int indexInventory;
-	int indexProcessFile;
+    
+    string productNumberid;
 
-	string inventoryProductProcess;
-	string productIDprocess;
-
-	indexProductNumber = 0;
-
-	//Skip line 
-	fin.ignore(1000, '\n');
-
-	for (indexProcessFile = 0; indexProcessFile < processCount; indexProcessFile++) 
-	{
-
-		//Get only companyID from line 
-		getline(fin, inventoryProductProcess);
-		inventoryProductProcess = inventoryProductProcess.substr(10, 4);
-
-		for (indexInventory = 0; indexInventory <= inventoryCount; indexInventory++) 
+    indexInventory = 0;
+    
+    for (indexInventory = 0; indexInventory <= inventoryCount; indexInventory++) 
 		{
-			productIDprocess = inventoryO[indexInventory].productNumber;
-			if (productIDprocess == inventoryProductProcess)
+			productNumberid = inventoryO[indexInventory].productNumber;
+			if (productIDprocess == productNumberid)
 			{
 				//Return location
 				indexProductNumber = indexInventory;
 
-				//Break from first loop
-				indexProcessFile = processCount;
-
-				//Break from second one
+                //Break from loop
 				break;
 			}
 		}
-	}
 
 	return indexProductNumber;
 }
@@ -197,4 +204,19 @@ void PrintProcessingOrder(ofstream& fout, companyStructType company[], inventory
 	PrintDivider(fout, 100);
 
 
+}
+
+//Function to print Centered Name
+void PrintCenteredMessage(ofstream& fout, string titleOrder, int width) {
+    int centredTtitleLength;
+
+    //Print Divider
+    PrintDivider(fout, width);
+
+    //Print College Name
+	centredTtitleLength = static_cast<int>(titleOrder.length());
+	fout << setw((100 + centredTtitleLength) / 2) << titleOrder << endl;
+    
+    //Print Divider
+    PrintDivider(fout, width);
 }
