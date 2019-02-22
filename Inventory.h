@@ -1,10 +1,12 @@
 //---------------------------------------------------------------------------------------------------------------------
 //Programmer's Name:  Mohamed Ali Larbi Daho Bachir
 //File Name:          Inventory.h
-//Associated File:    None
+//Associated File:    Inventory.cpp
 //Header File contains:
-// - Struct Type for Inventory
-
+// - inventoryStructType
+// Prototype for:
+// - InventoryHeading, InventoryGettingData, ReorderFlag, InventoryStructSorted, PrintInventoryData
+ 
 //---------------------------------------------------------------------------------------------------------------------
 #ifndef Inventory_h
 #define Inventory_h
@@ -14,13 +16,13 @@
 struct inventoryStructType{
     string productName;
     string productNumber;
-
+    
     int onHand[3][4];
     int totalOnHandQuantity;
     int minimumOnHandQuantity;
-
+    
     bool reorderFlag;
-
+    
     double cost;
     double price;
 };
