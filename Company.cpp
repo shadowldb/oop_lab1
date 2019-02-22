@@ -4,19 +4,21 @@
 //Associated File:    None
 //Inventory.cpp File contains:
 // - Calling Inventory.h
-// -
+// - 
 //---------------------------------------------------------------------------------------------------------------------
 #include"Standards.h"
 #include"Company.h"
 
 //Get DATA from CompanyInput.txt file
-int CompanyGettingData(ifstream& fin, companyStructType companyStruct[]) {
+int CompanyGettingData(ifstream& fin, companyStructType companyStruct[]) 
+{
 
 	int companyCount;
 
 	companyCount = 0;
 
-	while (!fin.eof()) {
+	while (!fin.eof()) 
+	{
 
 		fin >> companyStruct[companyCount].companyID;
 		getline(fin, companyStruct[companyCount].companyName);
@@ -24,9 +26,9 @@ int CompanyGettingData(ifstream& fin, companyStructType companyStruct[]) {
 		getline(fin, companyStruct[companyCount].city);
 		getline(fin, companyStruct[companyCount].state);
 		getline(fin, companyStruct[companyCount].zip);
+		
 
-
-
+	
 		companyCount++;
 	}
 
@@ -35,7 +37,8 @@ int CompanyGettingData(ifstream& fin, companyStructType companyStruct[]) {
 }
 
 //Print Company Heading
-void PrintCompanyHeading(ofstream& fout) {
+void PrintCompanyHeading(ofstream& fout) 
+{
 
 	//Print Out Divider
 	PrintDivider(fout, 100);
@@ -54,8 +57,9 @@ void PrintCompanyHeading(ofstream& fout) {
 		"Zip" << endl;
 }
 
-//Print out Company DATA
-void PrintCompanyData(ofstream& fout, int companyCount, companyStructType companyStruct[]){
+//Print out Company DATA 
+void PrintCompanyData(ofstream& fout, int companyCount, companyStructType companyStruct[])
+{
 
 	int index;
 
@@ -63,7 +67,8 @@ void PrintCompanyData(ofstream& fout, int companyCount, companyStructType compan
 
 	PrintCompanyHeading(fout);
 
-	while (index < companyCount) {
+	while (index < companyCount) 
+	{
 
 		fout << companyStruct[index].companyID <<
 			companyStruct[index].companyName << right << setw(20) <<
