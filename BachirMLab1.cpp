@@ -78,46 +78,41 @@ int main(void) {
 	=============================================[Part 4: Processing Orders]===========================================
 	=================================================================================================================*/
 
-	int indexCompanys;
-	int processCounter;
+	int processingCounter;
+    int processOrderCounter;
+    int indexCompanyMatch;
+    int indexInventoryMatch;
 
-	string companyIDprocess;
-	string processProductId;
-
+    processingOrderStruct orderStruct[20];
 
 	//Open ProcessInput.txt file
 	fin.open("ProcessInput.txt");
 
-	//Printing Loop
+	//Store DATA into Struct
+    StoreDataIntoStruct(fin, orderStruct, processingCounter);
 
+    for (processOrderCounter = 0; processOrderCounter <= processingCounter; processOrderCounter++) 
+    {
 
-	//Look for CompanyID
-	indexCompanys = CompanyIDChecker(fin, companyCount, companyS, processCounter);
+        //Check companyID
+        indexCompanyMatch = CompanyIDChecker(companyCount, companyS, orderStruct[processOrderCounter].orderCompanyID, processingCounter);
+        cout << "Company Match ==> " << indexCompanyMatch << endl;
+        cout << "Company Order ==> " << orderStruct[processOrderCounter].orderCompanyID << " Here ==> " << companyS[indexCompanyMatch].companyID << endl;
+        //Check product Number
+        cout << "Number ==> " << orderStruct[processOrderCounter].orderProductNumber << endl;
+        indexInventoryMatch = ProductNumberIDos(orderStruct[processOrderCounter].orderProductNumber, inventoryCount, inventory);
 
-	//Print Data
-	PrintProcessingOrder(fout, companyS, inventory, companyCount, inventoryCount, indexCompanys);
+        cout << "Inventory Location: " << indexInventoryMatch  << "==> " << inventory[indexInventoryMatch].productNumber << endl;
+        
+    }
 	
 
-	//Returning to the beginning line of the file input
-	fin.seekg(0, ios::beg);
-
-	//Look for InventoryID
-	ProductNumberIDo(fin, inventoryCount, processProductId, inventory, processCounter);
-
 	//Returning to the beginning line of the file
-	fin.seekg(0, ios::beg);
+	//fin.seekg(0, ios::beg);
 
-	//Get Quantity from ProcessInput.txt file and compare it with inventoryStructType Quantity
-	UpdateInventory(fin, inventory, inventoryCount);
-
-	//Print Data
-	PrintProcessingOrder(fout, companyS, inventory, companyCount, inventoryCount, indexCompanys);
-
-
-
-	//Print Inventory Report - Sorted (AGAIN)
-	PrintInventoryData(fout, inventory, inventoryCount, "InventoryReport - Sorted");
-
+	
+    
+    
 	//Close ProcessInput.txt file
 	fin.close();
 
