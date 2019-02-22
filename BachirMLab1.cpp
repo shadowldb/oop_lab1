@@ -1,94 +1,3 @@
-//---------------------------------------------------------------------------------------------------------------------
-//Programmer's Name: Mohamed Ali Larbi Daho Bachir
-//Lab 1
-//Total Possible Points -----------------------------------------------------------------------------------------> 200
-//Points Lost---------------------------------------------------------------------------------------------------->-
-//Lab Grade ----------------------------------------------------------------------------------------------------->
-//Main Requirements
-// Main named correctly
-// Includes for header files above the main
-// Variables named correctly & blocked by type
-// Files Opened and closed in the main
-// Processing blocked by Parts
-// *Part 1
-//  -Output file opened, formatting set to 2 decimals
-//  -CourseHeading, File Names printed
-// *Part 2
-//  -Open the inventory input file
-//  -Input the inventory data
-//  -Calculate the inventory Prices
-//  -Calculate the total quantity on hand
-//  -Set reorder flags
-//  -Print the inventory data
-//  -Print the count of the inventory
-//  -Sort the inventory data
-//  -Print the inventory data
-//  -Print the count of the inventory
-// *Part 3
-//  -Open the company input file
-//  -Input the company data
-//  -Print the company data
-//  -Print the count of the companies
-// *Part 4
-//  -Open the order input file
-//  -Process the orders
-//Print the final inventory file updated with all orders processed
-//Comments:
-//
-//
-//
-//Points Lost---------------------------------------------------------------------------------------------------->
-//---------------------------------------------------------------------------------------------------------------------
-//Inventory
-//-Header and CPP file created, correctly named
-//-Correctly documented and formatted, meets all standard Course Requirements
-//-Functions included:
-//  *Input Inventory
-//  *Calculate Inventory Prices
-//  *Calculate Total Quantity on hand
-//  *Set Reorder Flag
-//  *Print Column Headings
-//  *Print Inventory
-//  *Selection Sort the inventory ascending on product number
-//    ^Selection Sort
-//    ^Index of Smallest
-//    ^Swap
-//
-//Comments:
-//
-//
-//
-//Points Lost---------------------------------------------------------------------------------------------------->
-//---------------------------------------------------------------------------------------------------------------------
-//Company
-//-Header and CPP file created, correctly named
-//-Correctly documented and formatted, meets all standard Course Requirements
-//-Functions included:
-//  *Input Company
-//  *Print Company Heading
-//  *Print Companies
-//Comments:
-//
-//
-//
-//Points Lost---------------------------------------------------------------------------------------------------->
-//---------------------------------------------------------------------------------------------------------------------
-//Order Processing
-//-Header and CPP file created, correctly named
-//-Correctly documented and formatted, meets all standard Course Requirements
-//-Functions included:
-//  *Check Company Id
-//  *Check Product Number
-//  *Update Inventory
-//  *Print Bill Error
-//  *Print Bill
-//  *Process Orders
-//Comments:
-//
-//
-//
-//Points Lost---------------------------------------------------------------------------------------------------->
-//---------------------------------------------------------------------------------------------------------------------
 
 #include"Standards.h"
 #include"Inventory.h"
@@ -130,9 +39,6 @@ int main(void) {
 	//Get DATA from Inventory File
 	inventoryCount = InventoryGettingData(fin, inventory);
 
-	//	InventoryCount calculation checked :D
-	cout << "inventory Count ==> [" << inventoryCount << endl;
-
 	//Print Inventory Report - Unsorted
 	PrintInventoryData(fout, inventory, inventoryCount, "InventoryReport - Unsorted");
 
@@ -152,7 +58,7 @@ int main(void) {
 	//Company Counters
 	int companyCount;
 
-	//Define Company Struct
+	//Define Company Struct 
 	companyStructType companyS[MAX_COMPANIES_STRUCT];
 
 	//Open CompanyInput.txt file
@@ -165,64 +71,78 @@ int main(void) {
 	PrintCompanyData(fout, companyCount, companyS);
 
 
-	//Closr ComnpanyInput.txt file
+	//Close ComnpanyInput.txt file
 	fin.close();
 
 	/*=================================================================================================================
 	=============================================[Part 4: Processing Orders]===========================================
 	=================================================================================================================*/
-    
-    int indexCompanys;    
-    int processCounter;
-    string companyIDprocess;
-    
-    //Inizializing
-    indexCompanys = 0;
-    
+
+	int indexCompanys;
+	int processCounter;
+
+	string companyIDprocess;
+	string processProductId;
+
+
 	//Open ProcessInput.txt file
 	fin.open("ProcessInput.txt");
-    
-   
-    //Get first value
-    fin >> processCounter;    
-    //Ignore and go to the next line
-    fin.ignore(100, '\n');    
 
-    //Look for companyID
-    while (!fin.eof()) {
-        //Get Data from CompanyStruct
-        indexCompanys = CompanyIDChecker(fin, companyCount, companyS, processCounter);
-        
-        //Print DATA
-        PrintProcessingOrder(fout, companyS, inventory, companyCount, inventoryCount, indexCompanys);
-    }
-  
+	//Printing Loop
 
-    //Look for productNumber
-    //Print Process DATA
-  
-    
+
+	//Look for CompanyID
+	indexCompanys = CompanyIDChecker(fin, companyCount, companyS, processCounter);
+
+	//Print Data
+	PrintProcessingOrder(fout, companyS, inventory, companyCount, inventoryCount, indexCompanys);
+	
+
+	//Returning to the beginning line of the file input
+	fin.seekg(0, ios::beg);
+
+	//Look for InventoryID
+	ProductNumberIDo(fin, inventoryCount, processProductId, inventory, processCounter);
+
+	//Returning to the beginning line of the file
+	fin.seekg(0, ios::beg);
+
+	//Get Quantity from ProcessInput.txt file and compare it with inventoryStructType Quantity
+	UpdateInventory(fin, inventory, inventoryCount);
+
+	//Print Data
+	PrintProcessingOrder(fout, companyS, inventory, companyCount, inventoryCount, indexCompanys);
+
+
+
+	//Print Inventory Report - Sorted (AGAIN)
+	PrintInventoryData(fout, inventory, inventoryCount, "InventoryReport - Sorted");
+
 	//Close ProcessInput.txt file
 	fin.close();
 
-
-
 	fout.close();
 
-    ///system("pause");
+	system("pause");
 
 	return 0;
 
 }
 
-//Divider function
-void PrintDivider(ofstream& fout, int width) {
+//---------------------------------------------------------------------------------------------------------------------
+// Print Divider - Pass two parameters file_output(fout) and width.
+//---------------------------------------------------------------------------------------------------------------------
+void PrintDivider(ofstream& fout, int width)
+{
 
 	fout << setfill(SYMBOL) << setw(width) << SYMBOL << setfill(' ') << endl;
 }
 
-//Header on the Screen Printout function
-void PrintCourseHeading(ofstream& fout) {
+//---------------------------------------------------------------------------------------------------------------------
+// Print Course Heading - Output Course and Programmer Information into file_output. 
+//---------------------------------------------------------------------------------------------------------------------
+void PrintCourseHeading(ofstream& fout) 
+{
 
 	int stringLength;
 
@@ -249,8 +169,11 @@ void PrintCourseHeading(ofstream& fout) {
 
 }
 
-//Print File Name
-void PrintFileName(ofstream& fout) {
+//---------------------------------------------------------------------------------------------------------------------
+// Print File Names - Output all file names that has been opened. 
+//---------------------------------------------------------------------------------------------------------------------
+void PrintFileName(ofstream& fout)
+{
 
 	fout << "Input can be found in the file, inventoryInput.txt" << endl;
 
@@ -267,7 +190,7 @@ void PrintFileName(ofstream& fout) {
 	//Print Divider
 	PrintDivider(fout, 100);
 
-	fout << "Ouput can be found in the file, Lab1Out.txt" << endl;
+	fout << "Output can be found in the file, Lab1Out.txt" << endl;
 
 	//Print Divider
 	PrintDivider(fout, 100);
@@ -278,4 +201,3 @@ void PrintFileName(ofstream& fout) {
 
 
 }
-
