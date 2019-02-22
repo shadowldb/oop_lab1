@@ -1,9 +1,11 @@
 //---------------------------------------------------------------------------------------------------------------------
 //Programmer's Name:  Mohamed Ali Larbi Daho Bachir
 //File Name:          Company.h
-//Associated File:    None
+//Associated File:    OrderProcessing.cpp
 //Header File contains:
-// - Struct Type for Inventory
+// Header File contains: None
+//Prototype for:
+//CompanyIDChecker, ProductNumberIDo, PrintProcessingOrder
 
 //---------------------------------------------------------------------------------------------------------------------
 
@@ -15,15 +17,17 @@
 
 
 //Check and look for CompanyID in CompanyStructType && ProcessInput.txt
-int CompanyIDChecker(ifstream& fin, int companyCount, companyStructType companyO[], int processCount);
+int CompanyIDChecker(ifstream& fin, int companyCount, companyStructType companyO[], int& processCount);
 
 //Product Number ID from Inventory
-int ProductNumberIDo(ifstream& fin, int inventoryCounts, string& productNid, inventoryStructType inventoryO);
- 
+int ProductNumberIDo(ifstream& fin, int inventoryCounts, string& productNid, inventoryStructType inventoryO[], int processCount);
+
+//Update Inventory if needed
+void UpdateInventory(ifstream& fin, inventoryStructType inventoryO[], int inventoryCounter);
+
 //Output Data into Lab1Out.txt
 void PrintProcessingOrder(ofstream& fout, companyStructType company[], inventoryStructType inventory[], int companyCount, int inventoryCount, int indexCompany);
 
 
 
 #endif // !OrderProcessing_h
-
