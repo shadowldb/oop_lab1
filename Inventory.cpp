@@ -4,12 +4,19 @@
 //Associated File:    None
 //Inventory.cpp File contains:
 // - Calling Inventory.h
-// -
+// - 
 //---------------------------------------------------------------------------------------------------------------------
 #include"Standards.h"
 #include"Inventory.h"
 
-void InventoryHeading(ofstream& fout) {
+//---------------------------------------------------------------------------------------------------------------------
+// Name: InventoryHeading - take file-Output(fout) as parameter 
+void InventoryHeading(ofstream& fout)
+{
+	int outerOnHandIndex;
+	int innerOnHandIndex;
+
+	char asciiCharactare;
 
 	fout << "Product Name" << right << setw(35) <<
 		"Product Number" << right << setw(30) <<
@@ -18,33 +25,33 @@ void InventoryHeading(ofstream& fout) {
 		"Min On Hand" << right << setw(15) <<
 		"Reorder Flag" << right << setw(15) <<
 		"Cost" << right << setw(15) <<
-		"Price" << right << setw(15) << endl;
+		"Price" << right << setw(15) << endl << right << setw(51);
 
-	fout << right << setw(52) << "1A" << right << setw(5) <<
-		"1B" << right << setw(5) <<
-		"1C" << right << setw(5) <<
-		"1D" << right << setw(5) <<
-		"2A" << right << setw(5) <<
-		"2B" << right << setw(5) <<
-		"2C" << right << setw(5) <<
-		"2D" << right << setw(5) <<
-		"3A" << right << setw(5) <<
-		"3B" << right << setw(5) <<
-		"3C" << right << setw(5) <<
-		"3D" << endl;
+	//Print OnHand Header
+	for (outerOnHandIndex = 1; outerOnHandIndex <= 3; outerOnHandIndex++) {
+		for (innerOnHandIndex = 65; innerOnHandIndex <= 68; innerOnHandIndex++) {
+			asciiCharactare = static_cast<char>(innerOnHandIndex);
+			fout << outerOnHandIndex << asciiCharactare << right << setw(4);
+		}
+	}
+
+	//Skip line
+	fout << endl;
 
 }
 
-int InventoryGettingData(ifstream& fin, inventoryStructType inventory1[]) {
-
+int InventoryGettingData(ifstream& fin, inventoryStructType inventory1[])
+{
+    
 	int invetoryCount;
 	int totalQuantity;
 
 	invetoryCount = 0;
 
-	while (!fin.eof()) {
+	while (fin && invetoryCount <= MAX_INVENTORY_STRUCT) 
+	{
 
-		//Inizialize Total Quantity
+		//Initialize Total Quantity
 		totalQuantity = 0;
 
 		///inventory1[invetoryCount].totalOnHandQuantity = 0;
@@ -52,9 +59,11 @@ int InventoryGettingData(ifstream& fin, inventoryStructType inventory1[]) {
 		getline(fin, inventory1[invetoryCount].productNumber);
 
 		//Store onHand into Array  (nested loop) & Calculate total Quantity
-		for (int i = 0; i <= 2; i++) {
+		for (int i = 0; i <= 2; i++) 
+		{
 
-			for (int j = 0; j <= 3; j++) {
+			for (int j = 0; j <= 3; j++) 
+			{
 
 				fin >> inventory1[invetoryCount].onHand[i][j];
 				totalQuantity = totalQuantity + inventory1[invetoryCount].onHand[i][j];
@@ -69,7 +78,7 @@ int InventoryGettingData(ifstream& fin, inventoryStructType inventory1[]) {
 		//Calculate Price
 		inventory1[invetoryCount].price = MARKUP * inventory1[invetoryCount].cost;
 		inventory1[invetoryCount].price = inventory1[invetoryCount].price + +inventory1[invetoryCount].cost;
-
+		
 		//Get Total Quantity
 		inventory1[invetoryCount].totalOnHandQuantity = totalQuantity;
 
@@ -80,17 +89,19 @@ int InventoryGettingData(ifstream& fin, inventoryStructType inventory1[]) {
 		invetoryCount++;
 
 	}
-
-	return invetoryCount;
+    
+	return invetoryCount; 
 
 }
 
 //reorder flag
-bool ReorderFlag(int quantity, int minOnHand) {
+bool ReorderFlag(int quantity, int minOnHand)
+{
 
 	bool reorderFlag = false;
 
-	if (quantity < minOnHand) {
+	if (quantity < minOnHand)
+	{
 		reorderFlag = true;
 	}
 
@@ -98,15 +109,16 @@ bool ReorderFlag(int quantity, int minOnHand) {
 }
 
 //Print Inventory Report - Unsorted
-void PrintInventoryData(ofstream& fout, inventoryStructType inventory[], int inventoryCount, string inventory_title) {
-
+void PrintInventoryData(ofstream& fout, inventoryStructType inventory[], int inventoryCount, string inventory_title) 
+{
+	
 	int stringLength;
 	int index;
 	int jIndex;
 	int iIndex;
 	int inventoryName_length;
 
-	//Inizialize Counters
+	//Initialize Counters
 	index = 0;
 
 	//Print Divider
@@ -124,10 +136,11 @@ void PrintInventoryData(ofstream& fout, inventoryStructType inventory[], int inv
 
 	//Print Divider
 	PrintDivider(fout, 189);
-
+	
 	//Print DATA from Inventory Struct
 
-	while (index < inventoryCount) {
+	while (index < inventoryCount) 
+	{
 
 		///string n = inventory[index].productName;
 
@@ -143,8 +156,10 @@ void PrintInventoryData(ofstream& fout, inventoryStructType inventory[], int inv
 			right << setw(setwidth)  << inventory[index].productNumber  << right << setw(5);
 
 		//Print ON Hand Array
-		for (iIndex = 0; iIndex <= 2; iIndex++) {
-			for (jIndex = 0; jIndex <= 3; jIndex++) {
+		for (iIndex = 0; iIndex <= 2; iIndex++) 
+		{
+			for (jIndex = 0; jIndex <= 3; jIndex++) 
+			{
 				fout << inventory[index].onHand[iIndex][jIndex] << right << setw(5);
 			}
 		}
@@ -174,7 +189,8 @@ void PrintInventoryData(ofstream& fout, inventoryStructType inventory[], int inv
 }
 
 //Sort InventoryStruct
-void InventoryStructSorted(inventoryStructType inventory[], int inventoryCount) {
+void InventoryStructSorted(inventoryStructType inventory[], int inventoryCount)
+{
 
 	string inventoryProductNumber;
 	string inventoryProductNumber2;
@@ -195,9 +211,11 @@ void InventoryStructSorted(inventoryStructType inventory[], int inventoryCount) 
 
 
 
-	for(index = 0; index < inventoryCount; index++){
+	for(index = 0; index < inventoryCount; index++)
+	{
 
-		for (jIndex = index + 1; jIndex < inventoryCount; jIndex++) {
+		for (jIndex = index + 1; jIndex < inventoryCount; jIndex++) 
+		{
 
 			//Get the 2 variables of Product Number
 			inventoryProductNumber = inventory[index].productNumber.substr(0, 2);
@@ -208,7 +226,8 @@ void InventoryStructSorted(inventoryStructType inventory[], int inventoryCount) 
 			number2 = atoi(inventoryProductNumber2.c_str());
 
 			//Sorting DATA base on condition
-			if (number2 < number1) {
+			if (number2 < number1) 
+			{
 
 				//Sort Product Name
 				inventoryProductName = inventory[index].productName;
@@ -216,9 +235,11 @@ void InventoryStructSorted(inventoryStructType inventory[], int inventoryCount) 
 				inventory[jIndex].productName = inventoryProductName;
 
 				//Sort onHand using nested loop
-				for (int i = 0; i <= 2; i++) {
+				for (int i = 0; i <= 2; i++)
+				{
 
-					for (int j = 0; j <= 3; j++) {
+					for (int j = 0; j <= 3; j++) 
+					{
 
 						inventoryOnHand[i][j] = inventory[index].onHand[i][j];
 						inventory[index].onHand[i][j] = inventory[jIndex].onHand[i][j];
@@ -260,9 +281,10 @@ void InventoryStructSorted(inventoryStructType inventory[], int inventoryCount) 
 			}
 
 		}
-
+		
 	}
 
 
 
 }
+
